@@ -11,9 +11,9 @@
     <?php
 		if(isset($pageCSS)):
 			foreach($pageCSS as $CSS){
-				echo '<link rel="stylesheet" href="'.base_url().'assets'.$CSS.'" >';
+				echo '<link rel="stylesheet" href="'.base_url().'assets/admin/'.$CSS.'" >';
 			}
 		endif;
   	?>
 </head>
-<body class="with-side-menu">	
+<body class="with-side-menu" ng-app="TrivialPMS">	

@@ -59,8 +59,9 @@ class Home extends CI_Controller{
 		$data['meta_description']	= METADESCRIPTION;
         $data['page_title'] 		= SITE_TITLE;
         $data['page_name']			= "Page Not Found";
-        $this->load->view('frontend/common/header.php',$data);        
-        $this->load->view('frontend/404_page', $data);        
+        echo "404 Not Found";
+        //$this->load->view('frontend/common/header.php',$data);        
+        //$this->load->view('frontend/404_page', $data);        
 	}
 } 
 

@@ -18,7 +18,7 @@
 	                <span class="lbl">Manage Employee</span>
 	            </span>
 	            <ul>
-	                <li><a href="<?php echo base_url('register-employee')?>"><span class="lbl">Register Employee</span></a></li>	                
+	                <li><a href="<?php echo base_url('admin/register_employee')?>"><span class="lbl">Register Employee</span></a></li>	                
 	                <li><a href="<?php echo base_url('create-account')?>"><span class="lbl">Create Employee Account</span></a></li>	                
 	                <li><a href="<?php echo base_url('employee-list')?>"><span class="lbl">Registerd Employee List</span></a></li>	                
 	            </ul>

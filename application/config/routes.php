@@ -59,15 +59,16 @@ $route['default_controller'] 		= 'auth';
 $route['login']						= 'auth/login';
 $route['logout'] 					= 'auth/logout';
 $route['dashboard'] 				= 'home';
-$route['admin/dashboard']			= 'admin/admin';
+$route['admin/dashboard']			= 'admin';
 $route['forgot-password'] 			= 'auth/forgotpassword';
 $route['forgotpassword_process'] 	= 'auth/forgotpassword_process';
 $route['setpassword/(:any)']		= 'auth/setpassword/$1';
 $route['setpassword_process/(:any)']= 'auth/setpassword_process/$1';
-$route['register-employee']			= 'auth/register-employee';
+
 $route['translate_uri_dashes'] 		        = FALSE;
 $route['404_override'] 				= 'home/page_404';
 
+//$route['register-employee']			= 'admin/register_employee';
 
 
 

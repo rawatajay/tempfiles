@@ -102,3 +102,4 @@ defined('PAYU_MERCHANT')	OR define('PAYU_MERCHANT' ,'r3Obt3KA');
 defined('PAYU_SALT')		OR define('PAYU_SALT' ,'LauVWHUOGy');
 defined('PAYU_TEST_URL')        OR define('PAYU_TEST_URL' ,'https://test.payu.in');
 defined('PAYU_LIVE_URL')        OR define('PAYU_LIVE_URL' ,'https://secure.payu.in');
+defined('ADMIN_ACCESS')        OR define('ADMIN_ACCESS' ,'<b>Only Admin Access Allowed.</b>');
