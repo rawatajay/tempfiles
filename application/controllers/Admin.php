@@ -66,7 +66,7 @@ class Admin extends CI_Controller{
 		if($this->session->userdata('userType') === '1'){
 			$data['page_title']         = SITE_TITLE;
 	        $data['page_name']          = "Register Employee";
-	        $data['page_slug']          = 'register_employee'; 
+	        $data['page_slug']          = 'manage-employee'; 
 	        $data['pageCSS']			= array('css/lib/clockpicker/bootstrap-clockpicker.min.css');
 	        $data['pageJS']				= array('js/lib/daterangepicker/daterangepicker.js','js/lib/bootstrap-select/bootstrap-select.min.js','js/angular.min.js','js/controller/employee.js');
 
@@ -82,7 +82,7 @@ class Admin extends CI_Controller{
 		}
 	}
 	/*
-	* index
+	* addEmpdata
 	*
 	* Used for ading employee data.
 	*
@@ -147,8 +147,60 @@ class Admin extends CI_Controller{
 			echo json_encode(array('status' => $this->status ,'data' =>  $this->responsedata, 'message' => strip_tags($this->message)));
 		}
 	}
+	/*
+	* create_account
+	*
+	* Used for creating employee account.
+	*
+	* @param 
+	* @return
+	*/
+	function create_account(){	
+		if($this->session->userdata('userType') === '1'){
+			$data['page_title']         = SITE_TITLE;
+	        $data['page_name']          = "Create Employee Account";
+	        $data['page_slug']          = 'manage-employee'; 
+	        $data['pageJS']				= array('js/angular.min.js','js/controller/employee.js');
+        	$data['userTypes']	= $this->common->_getList('userType','status=1','orderNo ASC');
+        	$data['users']	    = $this->common->_getList('user','isAccountCreated=0','empId ASC');
+	        $this->load->view('admin/common/header.php',$data);  
+	        $this->load->view('admin/common/topheader.php',$data);
+	        $this->load->view('admin/common/adminsidebarMenu.php',$data);   
+	        $this->load->view('admin/create_account',$data);        
+	        $this->load->view('admin/common/footer.php',$data);
 
+		} else {
+			echo ADMIN_ACCESS;
+		}
+	}
+	/*
+	* employee_list
+	*
+	* Used for displaying employee list.
+	*
+	* @param 
+	* @return
+	*/
+	function employee_list(){	
+		if($this->session->userdata('userType') === '1'){
+			$data['page_title']         = SITE_TITLE;
+	        $data['page_name']          = "Create Employee Account";
+	        $data['page_slug']          = 'manage-employee'; 
+	        $data['pageCSS']			= array('css/lib/datatables-net/datatables.min.css');
+	        $data['pageJS']				= array('js/lib/datatables-net/datatables.min.js');
+	        $data['initJsFunc']	= array("$('#example').DataTable();");
+        	$data['userTypes']	= $this->common->_getList('userType','status=1','orderNo ASC');
+        	$data['users']	    = $this->common->_getList('user','isAccountCreated=0','empId ASC');
+	        $this->load->view('admin/common/header.php',$data);  
+	        $this->load->view('admin/common/topheader.php',$data);
+	        $this->load->view('admin/common/adminsidebarMenu.php',$data);   
+	        $this->load->view('admin/emplist',$data);        
+	        $this->load->view('admin/common/footer.php',$data);
 
+		} else {
+			echo ADMIN_ACCESS;
+		}
+	}
 }
 
 ?>
