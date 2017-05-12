@@ -64,6 +64,7 @@ $route['forgot-password'] 			= 'auth/forgotpassword';
 $route['forgotpassword_process'] 	= 'auth/forgotpassword_process';
 $route['setpassword/(:any)']		= 'auth/setpassword/$1';
 $route['setpassword_process/(:any)']= 'auth/setpassword_process/$1';
+$route['register-employee']			= 'auth/register-employee';
 
 
 
