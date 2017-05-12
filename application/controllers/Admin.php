@@ -11,6 +11,11 @@
 */
 class Admin extends CI_Controller{
 
+	private $status = false;
+
+	private $responsedata = array();
+
+	private $message = "";
 	/*
 	 * __construct
 	 *
@@ -50,7 +55,7 @@ class Admin extends CI_Controller{
 		}
 	}
 	/*
-	* index
+	* register_employee
 	*
 	* Used for dispalying the admin login.
 	*
@@ -63,7 +68,8 @@ class Admin extends CI_Controller{
 	        $data['page_name']          = "Register Employee";
 	        $data['page_slug']          = 'register_employee'; 
 	        $data['pageCSS']			= array('css/lib/clockpicker/bootstrap-clockpicker.min.css');
-	        $data['pageJS']				= array('js/lib/daterangepicker/daterangepicker.js','js/lib/bootstrap-select/bootstrap-select.min.js');
+	        $data['pageJS']				= array('js/lib/daterangepicker/daterangepicker.js','js/lib/bootstrap-select/bootstrap-select.min.js','js/angular.min.js','js/controller/employee.js');
+
 	        $data['initJsFunc']	= array("$('#doj').daterangepicker({singleDatePicker: true,showDropdowns: true});","$('#dob').daterangepicker({singleDatePicker: true,showDropdowns: true});");
 	        $this->load->view('admin/common/header.php',$data);  
 	        $this->load->view('admin/common/topheader.php',$data);
@@ -75,6 +81,74 @@ class Admin extends CI_Controller{
 			echo ADMIN_ACCESS;
 		}
 	}
+	/*
+	* index
+	*
+	* Used for ading employee data.
+	*
+	* @param 
+	* @return
+	*/
+	function addEmpdata(){
+		if($this->session->userdata('userType') === '1'){
+			$postData = $this->input->post('data');
+			//print_r($postData);
+
+			$this->form_validation->set_rules('data[empname]', ' Employee Name', 'trim|required');  
+			$this->form_validation->set_rules('data[empfathername]', ' Father Name', 'trim|required');
+			$this->form_validation->set_rules('data[email]', ' Email ', 'trim|required|valid_email|is_unique[user.email]');
+			$this->form_validation->set_rules('data[gender]', ' Gender ', 'trim|required');
+			$this->form_validation->set_rules('data[contact]', ' Contact ', 'trim|required');
+			$this->form_validation->set_rules('data[address]', ' Address', 'trim|required');
+			$this->form_validation->set_rules('data[dob]', ' Date Of Birth ', 'trim|required'); 
+			$this->form_validation->set_rules('data[doj]', ' Date Of Joining', 'trim|required');
+
+			$this->form_validation->set_message('is_unique',' %s already exists.');
+			if ($this->form_validation->run() != FALSE) {
+				//print_r(print_r($postData));die;
+				$insert_data['email']            	= trim($postData['email']);                
+                $insert_data['gender']           	= trim($postData['gender']);
+                //$insert_data['password']        	= password_hash((trim($postData['password'])), PASSWORD_DEFAULT);
+                $insert_data['dateOfJoining']       = date("Y-m-d",strtotime($postData['doj']));       
+                $insert_data['name']        		= trim($postData['empname']);       
+                $insert_data['fathername']        	= trim($postData['empfathername']);       
+                $insert_data['contact']        		= trim($postData['contact']);                      
+                $insert_data['createdOn']       	= date("Y-m-d H:i:s");
+                $insert_data['dateOfBirth']        	= date("Y-m-d",strtotime($postData['dob'])); 
+                $insert_data['isAccountCreated']    = false;                 
+                
+                $insertId = $this->common->insert('user',$insert_data);
+
+                if($insertId > 0) {
+                	$this->common->update('user', array("userID" => $insertId), array("empId" => "EMP0".$insertId));
+                }
+                $this->status = true;
+
+			} else {
+				if(form_error('data[empname]')){                     
+				    $this->message = form_error('data[empname]');
+				} else if(form_error('data[empfathername]')){	
+				  	$this->message = form_error('data[empfathername]');
+				} else if(form_error('data[email]')){	
+				  	$this->message = form_error('data[email]');
+				} else if(form_error('data[gender]')){	
+				  	$this->message = form_error('data[gender]');
+				} else if(form_error('data[contact]')){	
+				  	$this->message = form_error('data[contact]');
+				} else if(form_error('data[address]')){	
+				  	$this->message = form_error('data[address]');
+				} else if(form_error('data[dob]')){	
+				  	$this->message = form_error('data[dob]');
+				} else if(form_error('data[doj]')){	
+				  	$this->message = form_error('data[doj]');
+				}
+			
+			}
+			echo json_encode(array('status' => $this->status ,'data' =>  $this->responsedata, 'message' => strip_tags($this->message)));
+		}
+	}
+
+
 }
 
 ?>
