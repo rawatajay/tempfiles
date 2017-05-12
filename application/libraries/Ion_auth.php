@@ -118,7 +118,7 @@ class Ion_auth
 		define("CAL_OPT", $SETTING->restrict_calendar);
                 define("BSTATESAVE", 0);
                 $user = $this->user()->row();                           
-                define("NAME", $user->firstName." ".$user->lastName);
+                define("NAME", $user->name);
                 define("USER_NAME", $user->userName);
                 define("USER_ID", $user->userID);
 		if ($cal = $this->ion_auth_model->getEvents()) {

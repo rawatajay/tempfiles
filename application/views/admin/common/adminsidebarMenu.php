@@ -2,7 +2,7 @@
 	<nav class="side-menu">
 	    <div class="side-menu-avatar">
 	        <div class="avatar-preview avatar-preview-100">
-	            <img src="<?php echo $this->session->userdata('profilePic');?>" alt="">
+	            <img src="<?php echo ($this->session->userdata('profilePic'))?$this->session->userdata('profilePic'):base_url().'assets/admin/img/avatar-2-64.png'; ?>" alt="">
 	        </div>
 	    </div>
 	    <ul class="side-menu-list"> 

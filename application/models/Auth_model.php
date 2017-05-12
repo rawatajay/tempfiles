@@ -20,7 +20,7 @@ class Auth_model extends CI_Model {
             $q=$this->db->get_where('user',$condition);
             if($q->num_rows()>0){
                 $res = $q->row();
-                return ucwords($res->firstName." ".$res->lastName);
+                return ucwords($res->name);
             }
             else{
                 return "User";

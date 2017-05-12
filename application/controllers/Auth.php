@@ -69,16 +69,16 @@ class Auth extends CI_Controller{
                     redirect(base_url(), $data);
                 }
                 if (!empty($userData)) {
-                    $Sessiondata = array(
-                       'loggedin' => true,
-                        'fname' => $userData['firstName'],
-                        'lname' => $userData['lastName'],
-                        'email' => $userData['email'],
-                        'userId' => $userData['userID'],
-                        'userType' => $userData['userType'],
-                        'phone' => $userData['phone'],
-                        'profilePic' => $userData['profilePic']
-                    );
+                    $Sessiondata = array(                       
+                        'loggedin' => true,                        
+                        'empId' => $userData['empId'],                        
+                        'name' => $userData['name'],                        
+                        'email' => $userData['email'],                        
+                        'userId' => $userData['userID'],                        
+                        'userType' => $userData['userType'],                        
+                        'phone' => $userData['contact'],                        
+                        'profilePic' => $userData['profilePic']                    
+                        );
                     $this->session->set_userdata($Sessiondata);                  
                     $this->load_dashboard();
                 } else {
