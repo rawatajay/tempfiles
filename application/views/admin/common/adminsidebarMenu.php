@@ -12,16 +12,18 @@
 	                <span class="lbl">Dashboard</span>
 	            </a>	            
 	        </li>
-	       <?php /* <li class="red  with-sub <?php if($page_slug == "user_jobseeker") echo "opened"?>" >	           
+	        <li class="red  with-sub <?php if($page_slug == "manage-employee") echo "opened"?>" >	           
 	            <span>
 	                <i class="font-icon glyphicon glyphicon-user"></i>
-	                <span class="lbl">Users</span>
+	                <span class="lbl">Manage Employee</span>
 	            </span>
 	            <ul>
-	                <li><a href="<?php echo base_url('admin/jobseekerlist')?>"><span class="lbl">Jobseeker</span></a></li>	                
+	                <li><a href="<?php echo base_url('register-employee')?>"><span class="lbl">Register Employee</span></a></li>	                
+	                <li><a href="<?php echo base_url('create-account')?>"><span class="lbl">Create Employee Account</span></a></li>	                
+	                <li><a href="<?php echo base_url('employee-list')?>"><span class="lbl">Registerd Employee List</span></a></li>	                
 	            </ul>
 	        </li>
-	        <li class="grey  <?php if($page_slug == "jobtype") echo "opened"?>">
+	      <?php /*  <li class="grey  <?php if($page_slug == "jobtype") echo "opened"?>">
 	            <a href="<?php echo base_url('admin/jobtypelist')?>">
 	                <i class="font-icon font-icon-post"></i>
 	                <span class="lbl">Job Type</span>
