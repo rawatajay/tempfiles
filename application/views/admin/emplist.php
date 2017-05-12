@@ -20,32 +20,50 @@
 								<tr>
 									<th>Empid</th>
 									<th>Name</th>
-									<th>Position</th>
+									<th>DOJ</th>
+									<th>Address</th>
+									<th>DOB</th>
 									<th>Email</th>
-									<th>Age</th>
-									<th>Start date</th>
-									<th>Salary</th>
+									<th>Contact</th>
+									<th>Gender</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
+									<th>Empid</th>
 									<th>Name</th>
-									<th>Position</th>
-									<th>Office</th>
-									<th>Age</th>
-									<th>Start date</th>
-									<th>Salary</th>
+									<th>DOJ</th>
+									<th>Address</th>
+									<th>DOB</th>
+									<th>Email</th>
+									<th>Contact</th>
+									<th>Gender</th>
+									<th>Action</th>
 								</tr>
 							</tfoot>
 							<tbody>
+								<?php foreach($users as $val) { ?>
 								<tr>
-									<td>Tiger Nixon</td>
-									<td>System Architect</td>
-									<td>Edinburgh</td>
-									<td>61</td>
-									<td>2011/04/25</td>
-									<td>$320,800</td>
+									<td><?php echo $val['empId']?></td>
+									<td><?php echo ucwords($val['name'])?></td>
+									<td><?php echo $val['dateOfJoining']?></td>
+									<td><?php echo $val['address']?></td>
+									<td><?php echo $val['dateOfBirth']?></td>
+									<td><?php echo $val['email']?></td>
+									<td><?php echo $val['contact']?></td>
+									<td><?php echo ucwords($val['gender'])?></td>
+									<td>
+										<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+											<button type="button" class="btn btn-primary-outline"><i class="fa fa-edit"></i></button>
+											<button type="button" class="btn btn-danger-outline"><i class="fa fa-remove"></i></button>
+											<?php if(!$val['isAccountCreated']){?>
+											<button type="button" class="btn btn-secondary-outline"><i class="fa fa-lock"></i></button>
+											<?php } ?>
+										</div>
+									</td>
 								</tr>
+								<?php } ?>
 							</tbody>
 						</table>
                         </div>

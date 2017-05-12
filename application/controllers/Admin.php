@@ -112,7 +112,8 @@ class Admin extends CI_Controller{
                 $insert_data['dateOfJoining']       = date("Y-m-d",strtotime($postData['doj']));       
                 $insert_data['name']        		= trim($postData['empname']);       
                 $insert_data['fathername']        	= trim($postData['empfathername']);       
-                $insert_data['contact']        		= trim($postData['contact']);                      
+                $insert_data['contact']        		= trim($postData['contact']);
+                $insert_data['address']        		= trim($postData['address']);
                 $insert_data['createdOn']       	= date("Y-m-d H:i:s");
                 $insert_data['dateOfBirth']        	= date("Y-m-d",strtotime($postData['dob'])); 
                 $insert_data['isAccountCreated']    = false;                 
@@ -190,7 +191,7 @@ class Admin extends CI_Controller{
 	        $data['pageJS']				= array('js/lib/datatables-net/datatables.min.js');
 	        $data['initJsFunc']	= array("$('#example').DataTable();");
         	$data['userTypes']	= $this->common->_getList('userType','status=1','orderNo ASC');
-        	$data['users']	    = $this->common->_getList('user','isAccountCreated=0','empId ASC');
+        	$data['users']	    = $this->common->_getList('USER_VIEW','','empId DESC');
 	        $this->load->view('admin/common/header.php',$data);  
 	        $this->load->view('admin/common/topheader.php',$data);
 	        $this->load->view('admin/common/adminsidebarMenu.php',$data);   
