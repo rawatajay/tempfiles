@@ -121,7 +121,7 @@
 											<button type="button" class="btn btn-primary-outline" ng-click="editEmp('<?php echo encrypt_decrypt('encrypt',$val['userID'])?>')"><i class="fa fa-edit"></i></button>
 											<button type="button" class="btn btn-danger-outline"><i class="fa fa-remove"></i></button>
 											<?php if(!$val['isAccountCreated']){?>
-											<button type="button" class="btn btn-secondary-outline"><i class="fa fa-lock"></i></button>
+											<button type="button" class="btn btn-secondary-outline" onclick="window.location.href='<?php echo base_url('admin/create_account'); ?>'"><i class="fa fa-lock"></i></button>
 											<?php } ?>
 										</div>
 									</td>

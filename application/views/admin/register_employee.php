@@ -44,6 +44,7 @@
 											<label class="form-label" for="signup_v1-gender">Gender</label>
 											<div class="form-control-wrapper">
 												<select class="form-control" ng-model="tempEmpData.gender" name="gender" id="gender">
+												    <option value="">-- Select Gender --</option>
 												    <option value="1">Male</option>
 												    <option value="2">Female</option>
 												</select>
