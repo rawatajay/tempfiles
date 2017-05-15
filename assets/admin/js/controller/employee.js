@@ -22,6 +22,15 @@ app.factory('serverResponseMessages', function(){
 	};
 });
 
+app.filter("ucwords", function () {
+    return function (input){
+        input = input.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+            return letter.toUpperCase();
+        });
+        return input; 
+    }    
+})
+
 // controller to add employee
 app.controller("empAddController", function($scope,$http, serverResponseMessages){
 	$scope.tempEmpData = {};
@@ -54,8 +63,52 @@ app.controller("empAddController", function($scope,$http, serverResponseMessages
 	}
 });
 // controller to add employee
-app.controller("empAccountController", function($scope,$http){
+app.controller("empAccountController", function($scope,$http,serverResponseMessages){
+	$scope.employees = [];
+	$scope.employeeTypes = [];
+    // function to get records from the database
+    $scope.getRecords = function(){
+        $http.get('getEmpdataForAccountCreatePage', {
+        }).then(function(response) {
+			if(response.status === 200){
+				$scope.employees = response.data.data.users;
+				$scope.employeeTypes = response.data.data.userTypes;
+			} else {
+				serverResponseMessages.messageError('Connection Error !!');
+			}
+		});
+    };
+    $scope.getEmpID = function(){
+    	var selectedEmp = $scope.employees.filter(function(item) {
+  			return item.userID === $scope.tempEmpData.userID;
+		})[0];
+		$scope.tempEmpData.empId = (selectedEmp)?selectedEmp.empId:'';
+    };
+    $scope.createAccount=  function () {
+    	var data = $.param({
+		'data' : $scope.tempEmpData
+		});
 
+		var config = {
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8;'
+			}
+		};
+
+		$http.post("addAccountEmpdata", data, config).then(function(response) {
+			if(response.status === 200){
+				if(response.data.status === false){
+					serverResponseMessages.messageError(response.data.message);	
+				} else{
+					serverResponseMessages.messageSuccess(response.data.message);
+					$scope.getRecords();	
+					$scope.tempEmpData={};
+				}
+			} else {
+				serverResponseMessages.messageError('Connection Error !!');
+			}
+		});
+    }
 });
 // controller to modify employee
 app.controller("empModifyController", function($scope,$http,serverResponseMessages){

@@ -164,8 +164,6 @@ class Admin extends CI_Controller{
 	        $data['page_name']          = "Create Employee Account";
 	        $data['page_slug']          = 'manage-employee'; 
 	        $data['pageJS']				= array('js/angular.min.js','js/controller/employee.js');
-        	$data['userTypes']	= $this->common->_getList('userType','status=1','orderNo ASC');
-        	$data['users']	    = $this->common->_getList('user','isAccountCreated=0','empId ASC');
 	        $this->load->view('admin/common/header.php',$data);  
 	        $this->load->view('admin/common/topheader.php',$data);
 	        $this->load->view('admin/common/adminsidebarMenu.php',$data);   
@@ -293,6 +291,64 @@ class Admin extends CI_Controller{
 				  	$this->message = form_error('data[dob]');
 				} else if(form_error('data[doj]')){	
 				  	$this->message = form_error('data[doj]');
+				}
+			
+			}
+			echo json_encode(array('status' => $this->status ,'data' =>  $this->responsedata, 'message' => strip_tags($this->message)));
+		}
+	}
+	/*
+	* addEmpdata
+	*
+	* Used for ading employee data.
+	*
+	* @param 
+	* @return
+	*/
+	function getEmpdataForAccountCreatePage(){
+		$data['userTypes']	= $this->common->_getList('userType','status=1','orderNo ASC');
+        $data['users']	    = $this->common->_getList('user','isAccountCreated=0','empId ASC','userID,name,empId');
+		echo json_encode(array('status' => TRUE ,'data' =>  $data, 'message' => ""));
+	}
+	/*
+	* addAccountEmpdata
+	*
+	* Used for creating employee login account.
+	*
+	* @param 
+	* @return
+	*/
+	function addAccountEmpdata(){
+		if($this->session->userdata('userType') === '1'){
+			$postData = $this->input->post('data');
+			$this->form_validation->set_rules('data[userID]', ' Select Employee', 'trim|required');
+			$this->form_validation->set_rules('data[userType]', ' Employee Type', 'trim|required');  
+			$this->form_validation->set_rules('data[password]', ' Password ', 'trim|required');
+			$this->form_validation->set_rules('data[repassword]', 'Confirm Password', 'required|matches[data[password]]');
+			
+			if ($this->form_validation->run() != FALSE) {
+				$insert_data['userType']            	= trim($postData['userType']);                
+                $insert_data['password']        	= password_hash((trim($postData['password'])), PASSWORD_DEFAULT);
+                $insert_data['isAccountCreated']    = true;                 
+                
+                $isUpdated = $this->common->update('user','`userID`= '.$postData['userID'],$insert_data);
+
+                if($isUpdated > 0) {
+                	$this->status = true;
+				  	$this->message = "Account created successfully!";
+                }else{
+				  	$this->message = "Some error occored!";
+                }
+
+			} else {
+				if(form_error('data[userID]')){                     
+				    $this->message = form_error('data[userID]');
+				} else if(form_error('data[userType]')){	
+				  	$this->message = form_error('data[userType]');
+				} else if(form_error('data[password]')){	
+				  	$this->message = form_error('data[password]');
+				} else if(form_error('data[repassword]')){	
+				  	$this->message = form_error('data[repassword]');
 				}
 			
 			}
