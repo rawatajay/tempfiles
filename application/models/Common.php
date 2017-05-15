@@ -13,6 +13,7 @@ class Common extends CI_Model {
     parent  :: __construct();
     $this->load->library('smtp');
     $this->load->library('phpmailer');
+
   }
 #########################** INSERT FUNCTIONS START **######################
   /*
@@ -74,7 +75,7 @@ class Common extends CI_Model {
         $this->db->where($condition);
       }
       $query = $this->db->get();
-     //  echo $this->db->last_query(); die;
+       //echo $this->db->last_query(); die;
       if($query->num_rows() > 0){
         return $query->row_array();
       }else{

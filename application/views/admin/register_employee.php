@@ -20,7 +20,7 @@
 								<div class="col-md-6">
 								 	<div class="alert alert-danger alert-no-border" style="display:none"><p></p></div>
 								 	
-            						<div class="alert alert-success" style="display:none"><p></p></div>
+            						<div class="alert alert-success alert-no-borde" style="display:none"><p></p></div>
 									<form id="form-signup_v1" name="form-signup_v1" method="POST" ng-controller="empAddController">
 										<div class="form-group">
 											<label class="form-label" for="signup_v1-empname">Employee Name</label>
