@@ -11,7 +11,7 @@
                                 <div class="col-sm-3">
                                 <?php //admin/jobseekerlist ?>
                                     <article class="statistic-box red">
-                                        <div><a href="<?php echo base_url(); ?>" style="color:#FFF;">
+                                        <div><a href="<?php echo base_url('admin/employee_list')?>" style="color:#FFF;">
                                             <div class="number"><i class="fa fa-users"></i></div></a>
                                             <div class="caption"><div>Manage Employee</div></div> 
 

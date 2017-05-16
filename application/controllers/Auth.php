@@ -60,29 +60,36 @@ class Auth extends CI_Controller{
             $this->form_validation->set_rules('password', 'Password', 'trim|required');
             $this->form_validation->set_rules('usertype', 'User Type', 'trim|required');           
             if ($this->form_validation->run() != FALSE) {                
-	    		$data['email'] = $postData['email'];
-		        $data['password'] = md5($postData['password']);
-           	    $dataArray = array('email' => $data['email'], 'password' => $data['password'], 'userType' => $postData['usertype']);
-                $userData = $this->auth_model->loginUser($dataArray);            	
-                if($userData['isActive'] == '2'){
-                    $this->app->message('Your account is not active. Contact to the administrator', 'error');
-                    redirect(base_url(), $data);
-                }
-                if (!empty($userData)) {
-                    $Sessiondata = array(                       
-                        'loggedin' => true,                        
-                        'empId' => $userData['empId'],                        
-                        'name' => $userData['name'],                        
-                        'email' => $userData['email'],                        
-                        'userId' => $userData['userID'],                        
-                        'userType' => $userData['userType'],                        
-                        'phone' => $userData['contact'],                        
-                        'profilePic' => $userData['profilePic']                    
-                        );
-                    $this->session->set_userdata($Sessiondata);                  
-                    $this->load_dashboard();
+	    		//$data['email'] = $postData['email'];
+		        //$data['password'] = md5($postData['password']);
+
+           	    $dataArray = array('email' => $postData['email'], 'userType' => $postData['usertype']);
+                $userData = $this->auth_model->loginUser($dataArray);
+                if(!empty($userData)) {
+                    $result = password_verify($postData['password'], $userData['password']);
+                    if($userData['isActive'] == false){
+                        $this->app->message('Your account is not active. Contact to the administrator', 'error');
+                        redirect(base_url(), $postData);
+                    }
+                    if ($result == true) {
+                        $Sessiondata = array(                       
+                            'loggedin' => true,                        
+                            'empId' => $userData['empId'],                        
+                            'name' => $userData['name'],                        
+                            'email' => $userData['email'],                        
+                            'userId' => $userData['userID'],                        
+                            'userType' => $userData['userType'],                        
+                            'phone' => $userData['contact'],                        
+                            'profilePic' => $userData['profilePic']                    
+                            );
+                        $this->session->set_userdata($Sessiondata);                  
+                        $this->load_dashboard();
+                    } else {
+                        $this->app->message('Invaild User or Email or Password.', 'error');
+                        redirect(base_url(), $data);
+                    }
                 } else {
-                    $this->app->message('Invaild User or Email or Password.', 'error');
+                    $this->app->message('User does not exist with this account.', 'error');
                     redirect(base_url(), $data);
                 }
                 

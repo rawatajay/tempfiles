@@ -89,6 +89,7 @@
 									<th>Email</th>
 									<th>Contact</th>
 									<th>Gender</th>
+									<th>Status</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -102,11 +103,16 @@
 									<th>Email</th>
 									<th>Contact</th>
 									<th>Gender</th>
+									<th>Status</th>
 									<th>Action</th>
 								</tr>
 							</tfoot>
 							<tbody>
-								<?php foreach($users as $val) { ?>
+								<?php foreach($users as $val) {									
+									$status = ($val['isActive'] == true) ? 'success' : 'warning';
+									$statustype = ($val['isActive'] == true) ? 'Active' : 'Inactive';
+									$isAccountCreated = ($val['isActive'] == false)
+								 ?>
 								<tr>
 									<td><?php echo $val['empId']?></td>
 									<td><?php echo ucwords($val['name'])?></td>
@@ -116,12 +122,22 @@
 									<td><?php echo $val['email']?></td>
 									<td><?php echo $val['contact']?></td>
 									<td><?php echo ucwords($val['gender'])?></td>
+									<td><span class="label label-<?php echo $status; ?>"><?php echo $statustype; ?></span></td>
 									<td>
 										<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-											<button type="button" class="btn btn-primary-outline" ng-click="editEmp('<?php echo encrypt_decrypt('encrypt',$val['userID'])?>')"><i class="fa fa-edit"></i></button>
-											<button type="button" class="btn btn-danger-outline"><i class="fa fa-remove"></i></button>
-											<?php if(!$val['isAccountCreated']){?>
-											<button type="button" class="btn btn-secondary-outline" onclick="window.location.href='<?php echo base_url('admin/create_account'); ?>'"><i class="fa fa-lock"></i></button>
+											<button data-toggle="tooltip" data-original-title="Edit" type="button" class="btn btn-primary-outline" ng-click="editEmp('<?php echo encrypt_decrypt('encrypt',$val['userID'])?>')"><i class="fa fa-edit"></i></button>
+											<?php if($val['isActive'] == true) { ?>
+
+											<button data-toggle="tooltip" data-original-title="Inactive" type="button" class="btn btn-danger-outline delete-employee
+" ng-click="changeStatusEmployee('inactive','<?php echo encrypt_decrypt('encrypt',$val['userID'])?>')"><i class="fa fa-ban"></i></button>
+											<?php } else { ?> 
+											<button data-toggle="tooltip" data-original-title="Active" type="button" class="btn btn-success-outline delete-employee
+" ng-click="changeStatusEmployee('active','<?php echo encrypt_decrypt('encrypt',$val['userID'])?>')"><i class="fa fa-user"></i></button>
+											<?php } ?>
+											<?php if($val['isAccountCreated'] == false){?>
+											<button data-toggle="tooltip" data-original-title="Activate Account" type="button" class="btn btn-secondary-outline" onclick="window.location.href='<?php echo base_url('admin/create_account'); ?>'"><i class="fa fa-lock"></i></button>
+											<?php } else { ?>
+											<button data-toggle="tooltip" data-original-title="Deactive  Account" type="button" class="btn btn-danger-outline" ng-click="deactiveAccount('<?php echo encrypt_decrypt('encrypt',$val['userID'])?>')"><i class="fa fa-user-times"></i></button>
 											<?php } ?>
 										</div>
 									</td>

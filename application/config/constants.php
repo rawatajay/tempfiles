@@ -91,11 +91,11 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 defined('SITE_TITLE')		OR define('SITE_TITLE' ,'Trivialworks');
 defined('COPYRIGHT')		OR define('COPYRIGHT' , "&copy; Copyright ".date('Y')." by Trivialworks. All Rights Reserved.");
 defined('SMTPHOST')		OR define('SMTPHOST' ,'smtp.gmail.com');
-defined('SMTPEMAIL')		OR define('SMTPEMAIL' ,'ajay.trivialworks@gmail.com');
-defined('SMTPPASS')		OR define('SMTPPASS' ,'software9');
+defined('SMTPEMAIL')		OR define('SMTPEMAIL' ,'testing.trivialworks@gmail.com');
+defined('SMTPPASS')		OR define('SMTPPASS' ,'Trivial@123456');
 defined('SMTPPORT')		OR define('SMTPPORT' ,'465');
 defined('SMTPUSERNAME')		OR define('SMTPUSERNAME' ,'Trivialworks');
-defined('ADMINEMAIL')		OR define('ADMINEMAIL' ,'info.jobhunter.com');
+defined('ADMINEMAIL')		OR define('ADMINEMAIL' ,'testing.trivialworks@gmail.com');
 defined('METADESCRIPTION')	OR define('METADESCRIPTION' ,'Trivialworks');
 
 defined('PAYU_MERCHANT')	OR define('PAYU_MERCHANT' ,'r3Obt3KA');

@@ -20,7 +20,7 @@
 									<div class="alert alert-danger alert-no-border" style="display:none"><p></p></div>
 								 	
             						<div class="alert alert-success" style="display:none"><p></p></div>
-									<form id="form-signup_v1" name="form-signup_v1" method="POST" ng-controller="empAccountController" ng-init="getRecords()">
+									<form id="createAccountform" name="form-signup_v1" method="POST" ng-controller="empAccountController" ng-init="getRecords()">
 										<div class="form-group">
 											<label class="form-label" for="userID">Select Employee</label>
 											<div class="form-control-wrapper">
@@ -62,7 +62,7 @@
 											</div>
 										</div>
 										<div class="form-group">
-											<button type="button" ng-click="createAccount()" class="btn">Create account!</button>
+											<button type="button" ng-click="createAccount()" class="btn createAccount">Create account!</button>
 										</div>
 									</form>
 								</div>

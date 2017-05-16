@@ -32,6 +32,8 @@ class Admin extends CI_Controller{
         }
         $this->load->helper('functions');
         $this->load->model('app');
+        $this->load->model('auth_model');
+        $this->load->library('phpmailer');
 	}
 
 	/*
@@ -59,7 +61,7 @@ class Admin extends CI_Controller{
 	/*
 	* register_employee
 	*
-	* Used for dispalying the admin login.
+	* Used for registering employee.
 	*
 	* @param 
 	* @return
@@ -119,6 +121,7 @@ class Admin extends CI_Controller{
                 $insert_data['createdOn']       	= date("Y-m-d H:i:s");
                 $insert_data['dateOfBirth']        	= date("Y-m-d",strtotime($postData['dob'])); 
                 $insert_data['isAccountCreated']    = false;                 
+                $insert_data['isActive']    		= true;                 
                 
                 $insertId = $this->common->insert('user',$insert_data);
 
@@ -163,7 +166,7 @@ class Admin extends CI_Controller{
 			$data['page_title']         = SITE_TITLE;
 	        $data['page_name']          = "Create Employee Account";
 	        $data['page_slug']          = 'manage-employee'; 
-	        $data['pageJS']				= array('js/angular.min.js','js/controller/employee.js');
+	        $data['pageJS']				= array('js/angular.min.js','js/controller/employee.js','js/lib/blockUI/jquery.blockUI.js');
 	        $this->load->view('admin/common/header.php',$data);  
 	        $this->load->view('admin/common/topheader.php',$data);
 	        $this->load->view('admin/common/adminsidebarMenu.php',$data);   
@@ -187,8 +190,8 @@ class Admin extends CI_Controller{
 			$data['page_title']         = SITE_TITLE;
 	        $data['page_name']          = "Employee List";
 	        $data['page_slug']          = 'manage-employee'; 
-	        $data['pageCSS']			= array('css/lib/datatables-net/datatables.min.css');
-	        $data['pageJS']				= array('js/lib/daterangepicker/daterangepicker.js','js/lib/bootstrap-select/bootstrap-select.min.js','js/lib/datatables-net/datatables.min.js','js/angular.min.js','js/controller/employee.js');
+	        $data['pageCSS']			= array('css/lib/datatables-net/datatables.min.css','css/lib/bootstrap-sweetalert/sweetalert.css');
+	        $data['pageJS']				= array('js/lib/daterangepicker/daterangepicker.js','js/lib/bootstrap-select/bootstrap-select.min.js','js/lib/datatables-net/datatables.min.js','js/angular.min.js','js/controller/employee.js','js/lib/bootstrap-sweetalert/sweetalert.min.js');
 
 	        //$data['initJsFunc']	= array("$('#example').DataTable();");
 	        $data['initJsFunc']	= array("$('#doj').daterangepicker({singleDatePicker: true,showDropdowns: true});","$('#dob').daterangepicker({singleDatePicker: true,showDropdowns: true});");
@@ -265,12 +268,10 @@ class Admin extends CI_Controller{
                 $insert_data['contact']        		= trim($postData['contact']);
                 $insert_data['address']        		= trim($postData['address']);
                 $insert_data['updatedOn']       	= date("Y-m-d H:i:s");
-                $insert_data['dateOfBirth']        	= date("Y-m-d",strtotime($postData['dob'])); 
-                $insert_data['isAccountCreated']    = false;                 
-                
+                $insert_data['dateOfBirth']        	= date("Y-m-d",strtotime($postData['dob']));
                 $this->common->update('user', array("userID" => $empid), $insert_data);
                 $this->status = true;
-                echo $this->app->message('Emplyee details update successfully.','success');
+                $this->app->message('Emplyee details update successfully.','success');
 
 			} else {
 				if(form_error('data[primary]')){                     
@@ -313,7 +314,7 @@ class Admin extends CI_Controller{
 	/*
 	* addAccountEmpdata
 	*
-	* Used for creating employee login account.
+	* Used for creating employee account data.
 	*
 	* @param 
 	* @return
@@ -333,12 +334,30 @@ class Admin extends CI_Controller{
                 
                 $isUpdated = $this->common->update('user','`userID`= '.$postData['userID'],$insert_data);
 
-                if($isUpdated > 0) {
-                	$this->status = true;
-				  	$this->message = "Account created successfully!";
+                $EmpData = $this->common->_getRow('user', ' userID ='.$postData['userID'] ,'dateOfJoining,name,empId,email,address,fathername,contact,dateOfBirth,if(gender="male",1,2) as gender');
+
+                $message = $this->auth_model->create_Account_tamplate();
+            	
+            	$patternFind1[0] 	= '/{NAME}/';
+                $patternFind1[1] 	= '/{ACCOUNT}/';
+                $patternFind1[2] 	= '/{PASSWORD}/';
+                $replaceFind1[0] 	= ucwords($EmpData['name']);
+                $replaceFind1[1] 	= $EmpData['email'].' <b> OR </b> '.$EmpData['empId'];
+                $replaceFind1[2] 	= $postData['password'];
+                $txtdesc_contact    = stripslashes($message);                        
+                $ebody_contact      = preg_replace($patternFind1, $replaceFind1, $txtdesc_contact);
+                $esubject_contact	= ucwords(SITE_TITLE)." : Account Created.";
+                
+                $sendEmailStatus=$this->common->send_mail($ebody_contact,$esubject_contact,$EmpData['email'], $name, ADMINEMAIL, ucwords(SITE_TITLE));
+                if($sendEmailStatus){
+                	$this->app->message('Please check your email. Link has been sent on your email.', 'success');
+                	$this->session->set_flashdata("resendeamil",'resendeamil');
                 }else{
-				  	$this->message = "Some error occored!";
+                	$this->app->message('Oh snap! due to some error we can not send email.', 'error');
                 }
+
+                $this->status = true;
+				$this->message = "Account created successfully!";
 
 			} else {
 				if(form_error('data[userID]')){                     
@@ -352,6 +371,54 @@ class Admin extends CI_Controller{
 				}
 			
 			}
+			echo json_encode(array('status' => $this->status ,'data' =>  $this->responsedata, 'message' => strip_tags($this->message)));
+		}
+	}
+	/*
+	* deleteEmployee
+	*
+	* Used for deleting employee .
+	*
+	* @param 
+	* @return
+	*/
+	function deleteEmployee(){
+		if($this->session->userdata('userType') === '1'){
+			$postData = $this->input->post('data');
+			//print_r($postData);die;
+			if(empty($postData)){
+				$this->message = "Invalid employee";
+			} else {
+				$empid = encrypt_decrypt('decrypt',$postData['id']);
+				$isActiveStatus = ($postData['status'] == 'active') ? true : false;
+				$isUpdated = $this->common->update('user','`userID`= '.$empid,array('isActive' => $isActiveStatus ));
+				$this->status = true;
+			}
+			
+			echo json_encode(array('status' => $this->status ,'data' =>  $this->responsedata, 'message' => strip_tags($this->message)));
+		}
+	}
+	/*
+	* deactiveAccount
+	*
+	* Used for deactive employee .
+	*
+	* @param 
+	* @return
+	*/
+	function deactivateEmployee(){
+		if($this->session->userdata('userType') === '1'){
+			$postData = $this->input->post('data');
+			//print_r($postData);die;
+			if(empty($postData)){
+				$this->message = "Invalid employee";
+			} else {
+				$empid = encrypt_decrypt('decrypt',$postData);
+				//$isActiveStatus = ($postData['status'] == 'active') ? true : false;
+				$isUpdated = $this->common->update('user','`userID`= '.$empid,array('isAccountCreated' => false ));
+				$this->status = true;
+			}
+			
 			echo json_encode(array('status' => $this->status ,'data' =>  $this->responsedata, 'message' => strip_tags($this->message)));
 		}
 	}

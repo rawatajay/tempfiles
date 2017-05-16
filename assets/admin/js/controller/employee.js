@@ -22,6 +22,8 @@ app.factory('serverResponseMessages', function(){
 	};
 });
 
+
+
 app.filter("ucwords", function () {
     return function (input){
         input = input.toLowerCase().replace(/\b[a-z]/g, function(letter) {
@@ -85,10 +87,11 @@ app.controller("empAccountController", function($scope,$http,serverResponseMessa
 		$scope.tempEmpData.empId = (selectedEmp)?selectedEmp.empId:'';
     };
     $scope.createAccount=  function () {
-    	var data = $.param({
+   		
+    	$(".createAccount").prop('disabled',true);
+		var data = $.param({
 		'data' : $scope.tempEmpData
 		});
-
 		var config = {
 			headers : {
 				'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8;'
@@ -96,10 +99,13 @@ app.controller("empAccountController", function($scope,$http,serverResponseMessa
 		};
 
 		$http.post("addAccountEmpdata", data, config).then(function(response) {
+			$(".createAccount").prop('disabled',false);
 			if(response.status === 200){
 				if(response.data.status === false){
+					
 					serverResponseMessages.messageError(response.data.message);	
 				} else{
+					
 					serverResponseMessages.messageSuccess(response.data.message);
 					$scope.getRecords();	
 					$scope.tempEmpData={};
@@ -118,7 +124,7 @@ app.controller("empModifyController", function($scope,$http,serverResponseMessag
 		$(".editbtn").click(function(){
 			$(window).scrollTop(0);
 		})
-		 $scope.genders = [
+		$scope.genders = [
 		    { 'id': 1, 'value' : 'Male' },
 		    { 'id': 2, 'value' : 'Female' },
 		    ];
@@ -180,5 +186,117 @@ app.controller("empModifyController", function($scope,$http,serverResponseMessag
 		});
 
 	}
+
+	// remove employee
+	$scope.changeStatusEmployee = function(status,primary) {
+				swal({
+				title: "Are you sure?",
+				text: "You want to change the employee status!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonClass: "btn-danger",
+				confirmButtonText: "Yes, change it!",
+				cancelButtonText: "No, cancel plz!",
+				closeOnConfirm: false,
+				closeOnCancel: false
+			},
+			function(isConfirm) {
+				if (isConfirm) {
+					var data = $.param({
+						'data' : {'id' : primary , 'status' : status}
+					});
+					var config = {
+						headers : {
+							'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8;'
+						}
+					};				
+					$http.post("deleteEmployee", data, config).then(function(response) {
+						//console.log(response.data);
+						if(response.status === 200){
+							if(response.data.status === false){
+								serverResponseMessages.messageError(response.data.message);	
+							} else{
+								setTimeout(function(){
+								   location.reload();
+								}, 1000);
+								
+							}
+						} else {
+							serverResponseMessages.messageError('Connection Error !!');
+						}
+					});
+					swal({
+						title: "Changed!",
+						text: "Emlployee status has been changed.",
+						type: "success",
+						confirmButtonClass: "btn-success"
+					});
+				} else {
+					swal({
+						title: "Cancelled",
+						text: "",
+						type: "error",
+						confirmButtonClass: "btn-danger"
+					});
+				}
+			});
+		//});
+	}
+
+	// deactivate the employee account
+	$scope.deactiveAccount = function(primary) {
+				swal({
+				title: "Are you sure?",
+				text: "You want to deactivate the employee account!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonClass: "btn-danger",
+				confirmButtonText: "Yes, deactivate it!",
+				cancelButtonText: "No, cancel plz!",
+				closeOnConfirm: false,
+				closeOnCancel: false
+			},
+			function(isConfirm) {
+				if (isConfirm) {
+					var data = $.param({
+						'data' :  primary 
+					});
+					var config = {
+						headers : {
+							'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8;'
+						}
+					};				
+					$http.post("deactivateEmployee", data, config).then(function(response) {
+						//console.log(response.data);
+						if(response.status === 200){
+							if(response.data.status === false){
+								serverResponseMessages.messageError(response.data.message);	
+							} else{
+								setTimeout(function(){
+								   location.reload();
+								}, 1000);
+								
+							}
+						} else {
+							serverResponseMessages.messageError('Connection Error !!');
+						}
+					});
+					swal({
+						title: "Deactivated!",
+						text: "Emlployee status has been deactivated.",
+						type: "success",
+						confirmButtonClass: "btn-success"
+					});
+				} else {
+					swal({
+						title: "Cancelled",
+						text: "",
+						type: "error",
+						confirmButtonClass: "btn-danger"
+					});
+				}
+			});
+		//});
+	}
+
 });
-	

@@ -200,6 +200,7 @@ class Common extends CI_Model {
     $this->phpmailer->Host        = SMTPHOST;  // specify main and backup server
     $this->phpmailer->SMTPAuth    = true;     // turn on SMTP authentication
     $this->phpmailer->SMTPSecure  = "ssl";
+    //$this->phpmailer->SMTPDebug   = 2;
     $this->phpmailer->Port        = SMTPPORT;
     $this->phpmailer->Username    = SMTPEMAIL;  // SMTP username
     $this->phpmailer->Password    = SMTPPASS; // SMTP password
