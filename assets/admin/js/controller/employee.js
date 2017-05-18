@@ -36,9 +36,75 @@ app.filter("ucwords", function () {
 // controller to add employee
 app.controller("empAddController", function($scope,$http, serverResponseMessages){
 	$scope.tempEmpData = {};
-	// function to insert employee data
+	// function to insert employee data	
+	
+	$scope.departments = [];
+	$scope.employeeTypes = [];
+	$scope.designations = [];
+	$scope.EmployeeData = [];
+	$scope.genders = [
+		    { 'id': 1, 'value' : 'Male' },
+		    { 'id': 2, 'value' : 'Female' },
+		    ];
+		
+    // function to get records from the database
+    $scope.getRecords = function(){
+        $http.get(SITEBASEURL+'admin/getEmpdataForAccountCreatePage', {
+        }).then(function(response) {        	
+			if(response.status === 200){
+				$scope.designations = response.data.data.designations;
+				$scope.departments = response.data.data.departments;
+				$scope.employeeTypes = response.data.data.userTypes;
+				$scope.employeeData = response.data.data.EmployeeData;
+			} else {
+				serverResponseMessages.messageError('Connection Error !!');
+			}
+		});
+
+		// get employee data
+		var url = $(location).attr('href');
+		var getPrimary = url.split('/').reverse()[0];
+		var data = $.param({
+			'data' : getPrimary
+		});
+
+		var config = {
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded;charset=utf-8;'
+			}
+		};
+
+		$http.post(SITEBASEURL+"admin/getEmpdata", data, config).then(function(response) {
+			$(".signup-personal-btn").prop("disabled",false);
+			if(response.status === 200){
+				if(response.data.status === false){
+					serverResponseMessages.messageError(response.data.message);	
+				} else{				
+				console.log(response.data.data.empdata);
+				$scope.tempEmpData.empname = response.data.data.empdata.name;
+				$scope.tempEmpData.empfathername = response.data.data.empdata.fathername;
+				$scope.tempEmpData.email = response.data.data.empdata.email;
+				$scope.tempEmpData.gender = response.data.data.empdata.gender;
+				$scope.tempEmpData.address = response.data.data.empdata.address;
+				$scope.tempEmpData.dob = response.data.data.empdata.dateOfBirth;
+				$scope.tempEmpData.doj = response.data.data.empdata.dateOfJoining;
+				$scope.tempEmpData.contact = response.data.data.empdata.contact;
+				$scope.tempEmpData.empid = response.data.data.empdata.empId;
+					//serverResponseMessages.messageSuccess(response.data.message);	
+					
+					
+				}
+			} else {
+				serverResponseMessages.messageError('Connection Error !!');
+			}
+		});
+		
+    };
+
+
+
 	$scope.saveEmployee = function(){
-		//console.log($scope);
+		$(".signup-personal-btn").prop("disabled",true);
 		var data = $.param({
 			'data' : $scope.tempEmpData
 		});
@@ -49,25 +115,120 @@ app.controller("empAddController", function($scope,$http, serverResponseMessages
 			}
 		};
 
-		
-		$http.post("addEmpdata", data, config).then(function(response) {
-			//console.log(response.data);
+		$http.post(SITEBASEURL+"admin/addEmpdata", data, config).then(function(response) {
+			$(".signup-personal-btn").prop("disabled",false);
 			if(response.status === 200){
 				if(response.data.status === false){
 					serverResponseMessages.messageError(response.data.message);	
-				} else{
-					window.location.href = 'employee_list';
+				} else{					
+					serverResponseMessages.messageSuccess(response.data.message);	
+					$scope.tempEmpData = {};
+					//console.log(response);
+					setTimeout(function(){
+						$(".personalinfotab").removeClass("active");
+						$(".personalinfotab").attr("data-toggle","");
+						$(".hrinfotab").addClass("active");
+						$("#tabs-1-tab-1").removeClass("active in");
+						$("#tabs-1-tab-2").addClass("active in");						
+						$("#tabs-1-tab-1").html("");
+					},1000);
+					
+					$scope.tempEmpData.primary = response.data.data.primary;
+					window.onbeforeunload = function() {
+			        	return "Are you sure you want to leave from this page ? ";
+			    	}
 				}
 			} else {
 				serverResponseMessages.messageError('Connection Error !!');
 			}
 		});
 	}
+
+	// function to set hr info
+	$scope.updateHrInfo = function() {
+		$(".signup-hrinfo-btn").prop('disabled',true);
+
+		var data = $.param({
+			data : $scope.tempEmpData
+		})
+
+		var config = {
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded;charset=utf=8'
+			}
+		}
+		//console.log($scope);
+		//return false;
+		$http.post(SITEBASEURL+'admin/updatehrinfo',data,config).then(function(response){
+			$(".signup-hrinfo-btn").prop("disabled",false);
+			if(response.status === 200){
+				if(response.data.status === false){
+					serverResponseMessages.messageError(response.data.message);	
+				} else{
+					serverResponseMessages.messageSuccess(response.data.message);	
+					$scope.tempEmpData = {};
+					setTimeout(function(){
+						$(".hrinfotab").removeClass("active");
+						$(".hrinfotab").attr("data-toggle","");
+						$(".accountinfotab").addClass("active");
+						$("#tabs-1-tab-2").removeClass("active in");
+						$("#tabs-1-tab-3").addClass("active in");						
+						$("#tabs-1-tab-2").html("");
+					},1500);					
+					$scope.tempEmpData.primary = response.data.data.primary;
+					$scope.tempEmpData.empTrivialId = response.data.data.emptrivialid;
+					window.onbeforeunload = function() {
+			        	return "Are you sure you want to leave from this page ? ";
+			    	}
+				}
+			} else {
+				serverResponseMessages.messageError('Connection Error !!');
+			}
+		});
+	}
+	// function to update account info.
+	$scope.updateAccountInfo = function() {
+		
+		$(".signup-accinfo-btn").prop('disabled',true);
+		var data = $.param({
+			data : $scope.tempEmpData
+		})
+
+		var config = {
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded;charset=utf=8'
+			}
+		}
+
+		$http.post(SITEBASEURL+'admin/updateAccountInfo',data,config).then(function(response){
+			$(".signup-accinfo-btn").prop("disabled",false);
+			if(response.status === 200){
+				if(response.data.status === false){
+					serverResponseMessages.messageError(response.data.message);	
+				} else{
+					window.onbeforeunload = function () {}
+					serverResponseMessages.messageSuccess(response.data.message);	
+					$scope.tempEmpData = {};
+					setTimeout(function(){
+						window.location.href="employee_list";
+					},1000);
+				}
+			} else {
+				serverResponseMessages.messageError('Connection Error !!');
+			}
+		});
+	}
+
+	
 });
+/*
+
+
 // controller to add employee
 app.controller("empAccountController", function($scope,$http,serverResponseMessages){
 	$scope.employees = [];
 	$scope.employeeTypes = [];
+	$scope.employeeDetail = [];
     // function to get records from the database
     $scope.getRecords = function(){
         $http.get('getEmpdataForAccountCreatePage', {
@@ -75,6 +236,7 @@ app.controller("empAccountController", function($scope,$http,serverResponseMessa
 			if(response.status === 200){
 				$scope.employees = response.data.data.users;
 				$scope.employeeTypes = response.data.data.userTypes;
+
 			} else {
 				serverResponseMessages.messageError('Connection Error !!');
 			}
@@ -299,4 +461,4 @@ app.controller("empModifyController", function($scope,$http,serverResponseMessag
 		//});
 	}
 
-});
+});*/

@@ -62,8 +62,8 @@ class Auth extends CI_Controller{
             if ($this->form_validation->run() != FALSE) {                
 	    		//$data['email'] = $postData['email'];
 		        //$data['password'] = md5($postData['password']);
-
-           	    $dataArray = array('email' => $postData['email'], 'userType' => $postData['usertype']);
+                $dataArray = " ( email = '".$postData['email']."' OR empId='".$postData['email']."' ) AND userType = ".$postData['usertype'].""; 
+           	    //$dataArray = array('email' => $postData['email'], 'userType' => $postData['usertype']);
                 $userData = $this->auth_model->loginUser($dataArray);
                 if(!empty($userData)) {
                     $result = password_verify($postData['password'], $userData['password']);

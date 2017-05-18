@@ -77,12 +77,13 @@
 													<label class="form-label" for="signup_v1-gender">Gender</label>
 													<div class="form-control-wrapper">
 														<select class="form-control" ng-model="tempEmpData.gender" name="gender" id="gender">
-														    <option value="">-- Select Gender --</option>
-														    <option value="1">Male</option>
-														    <option value="2">Female</option>
-														</select>
+														<option value="">--- Select an option ---</option>
+														<option ng-selected= "{{value.id == tempEmpData.gender}}" ng-repeat="value in genders"  value="{{value.id}}">{{value.value}}     
+														</option>
+														</select> 
+
 													</div>
-												</div>												
+													</div>												
 												<div class="form-group">
 													<label class="form-label" for="signup_v1-contact">Contact</label>
 													<div class="form-control-wrapper">

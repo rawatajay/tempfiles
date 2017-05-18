@@ -14,7 +14,7 @@
                                 name="email"
                                 type="text"
                                 value=""
-                                data-validation="[EMAIL]">
+                                data-validation="NOTEMPTY">
                     </div>
                     <div class="form-group">
                        <input id="signup_v1-password"

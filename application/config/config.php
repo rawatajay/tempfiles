@@ -28,7 +28,7 @@ if($_SERVER['HTTP_HOST'] == "localhost"){
 }else{
 	$config['base_url'] = 'http://mobileappsdev.net/triviallms/';
 }
-
+//$config['base_url'] = 'http://192.168.0.131/triviallms';
 /*
 |--------------------------------------------------------------------------
 | Index File
