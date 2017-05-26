@@ -1,17 +1,59 @@
 <div class="page-content">
     <div class="container-fluid">
-        <div class="box-typical box-typical-full-height">
-            <div class="add-customers-screen tbl">
-                <div class="add-customers-screen-in">
-                    <div class="add-customers-screen-user">
-                        <i class="font-icon font-icon-user"></i>
+        <div class="row">
+            <section class="box-typical">
+                <header class="box-typical-header-sm"><br/> </header>
+                <article class="profile-info-item">
+
+                    <div class="text-block text-block-typical">
+                        <div class="col-xl-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <article class="statistic-box purple">
+                                        <div><a href="<?php echo base_url('employee/leave_apply'); ?>" style="color:#FFF;">
+                                            <div class="number"><i class="fa fa-calendar-check-o"></i></div></a>
+                                            <div class="caption"><div>Apply Leave</div></div> 
+
+                                        </div>
+                                    </article>
+                                </div><!--.col-->
+                                <div class="col-sm-3">
+                                    <article class="statistic-box green">
+                                        <div><a href="<?php echo base_url(); ?>" style="color:#FFF;">
+                                            <div class="number"><i class="fa fa-file-archive-o"></i></div></a>
+                                            <div class="caption"><div>Project TimeSheet</div></div> 
+                                        </div>
+                                    </article>
+                                </div><!--.col-->
+                                <div class="col-sm-3">
+                                    <article class="statistic-box yellow">
+                                        <div><a href="<?php echo base_url(); ?>" style="color:#FFF;">
+                                            <div class="number"><i class="fa fa-calendar"></i></div></a>
+                                            <div class="caption"><div>View Attandance</div></div> 
+
+                                        </div>
+                                    </article>
+                                </div><!--.col-->
+                                
+                                <div class="col-sm-3">
+                                <?php //admin/jobseekerlist ?>
+                                    <article class="statistic-box red">
+                                        <div><a href="<?php echo base_url()?>" style="color:#FFF;">
+                                            <div class="number"><i class="fa fa-lock"></i></div></a>
+                                            <div class="caption"><div>Change Password</div></div> 
+
+                                        </div>
+                                    </article>
+                                </div><!--.col-->
+                                
+                                
+                                
+                            </div><!--.row-->
+                        </div>
                     </div>
-                    <h2>Your Dashboard is Empty !</h2>
-                    <p class="lead color-blue-grey-lighter">This is a development build. We are working for Progress..</p>
-                    <a href="<?php echo base_url($home_url);?>" class="btn">Take me Home</a>
-                </div>
-            </div>
-        </div><!--.box-typical-->   
+                </article><!--.profile-info-item-->
+            </section><!--.box-typical-->
+        </div><!--.row-->   
     </div><!--.container-fluid-->
 </div><!--.page-content-->
         

@@ -5,7 +5,6 @@
 <script src="<?php echo base_url()?>assets/admin/js/plugins.js"></script>
 <script src="<?php echo base_url()?>assets/admin/js/lib/bootstrap-sweetalert/sweetalert.min.js"></script>
 <input id="baseurl" type="hidden" value="<?php echo base_url(); ?>" />
-<script src="<?php echo base_url()?>assets/admin/js/app.js"></script>
 <script type="text/javascript">
 	var SITEBASEURL = $("#sitebaseurl").val();
 </script>
@@ -25,7 +24,14 @@
 			}
 		endif;
 		?>	
-	});
+	
+
+	
+		
+
+      
+});
 </script>
+<script src="<?php echo base_url()?>assets/admin/js/app.js"></script>
 </body>
 </html>

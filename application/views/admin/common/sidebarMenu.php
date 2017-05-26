@@ -2,7 +2,7 @@
 	<nav class="side-menu">
 	    <div class="side-menu-avatar">
 	        <div class="avatar-preview avatar-preview-100">
-	            <img src="<?php echo $this->session->userdata('profilePic');?>" alt="">
+	            <img src="<?php echo ($this->session->userdata('profilePic'))?$this->session->userdata('profilePic'):base_url().'assets/admin/img/avatar-2-64.png'; ?>" alt="">
 	        </div>
 	    </div>
 	    <ul class="side-menu-list"> 
@@ -12,6 +12,25 @@
 	                <span class="lbl">Dashboard</span>
 	            </a>	            
 	        </li>
+	        <li class="  with-sub <?php if($page_slug == "leave-apply") echo "opened"?>" >	           
+	            <span>
+	                <i class="font-icon glyphicon glyphicon-user"></i>
+	                <span class="lbl">Employee Leave</span>
+	            </span>
+	            <ul>
+	                <li><a href="<?php echo base_url('employee/leave_apply')?>"><span class="lbl">Apply Leave</span></a></li>
+	            </ul>
+	            <ul>
+	                <li><a href="<?php echo base_url('employee/my_leave')?>"><span class="lbl">My Leave</span></a></li>
+	            </ul>	             
+	        </li>
+	        <li class="grey with-sub <?php if($page_slug == "attandance") echo "opened"?>">
+	            <a href="<?php echo base_url('employee/getMyAttendance')?>">
+	                <i class="font-icon font-icon-dashboard"></i>
+	                <span class="lbl">My Attandance</span>
+	            </a>	            
+	        </li>
+
 	       <?php /* <li class="red  with-sub <?php if($page_slug == "user_jobseeker") echo "opened"?>" >	           
 	            <span>
 	                <i class="font-icon glyphicon glyphicon-user"></i>

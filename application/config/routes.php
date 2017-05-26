@@ -68,6 +68,9 @@ $route['setpassword_process/(:any)']= 'auth/setpassword_process/$1';
 $route['translate_uri_dashes'] 		        = FALSE;
 $route['404_override'] 				= 'home/page_404';
 $route['edit_employee/(:any)']		= 'admin/edit_employee/$1';
+$route['edit_leave/(:any)']			= 'employee/edit_leave/$1';
+$route['view_leave/(:any)']			= 'admin/view_leave/$1';
+
 //$route['register-employee']			= 'admin/register_employee';
 
 

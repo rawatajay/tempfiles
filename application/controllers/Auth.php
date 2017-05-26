@@ -5,7 +5,7 @@
 * 
 * 
 * @package    	CI
-* @subpackage 	Job Hunter
+* @subpackage 	LMS
 * @category 	Auth Controller
 * @author 	  	TrivialWorks*
 */
@@ -74,7 +74,8 @@ class Auth extends CI_Controller{
                     if ($result == true) {
                         $Sessiondata = array(                       
                             'loggedin' => true,                        
-                            'empId' => $userData['empId'],                        
+                            'empId' => $userData['empId'],
+                            'userID'=> $userData['userID'],      
                             'name' => $userData['name'],                        
                             'email' => $userData['email'],                        
                             'userId' => $userData['userID'],                        

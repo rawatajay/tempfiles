@@ -23,12 +23,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-if($_SERVER['HTTP_HOST'] == "localhost"){
+/*if($_SERVER['HTTP_HOST'] == "localhost"){
 	$config['base_url'] = 'http://localhost/triviallms';
 }else{
 	$config['base_url'] = 'http://mobileappsdev.net/triviallms/';
-}
-//$config['base_url'] = 'http://192.168.0.131/triviallms';
+}*/
+$config['base_url'] = 'http://192.168.1.153/triviallms';
 /*
 |--------------------------------------------------------------------------
 | Index File

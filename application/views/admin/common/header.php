@@ -6,8 +6,6 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<title><?php echo $page_title ?> : <?php echo $page_name ?></title>
 	<link rel="icon" href="<?php echo base_url()?>favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="<?php echo base_url()?>assets/admin/css/lib/font-awesome/font-awesome.min.css">
-     <link rel="stylesheet" href="<?php echo base_url()?>assets/admin/css/main.css">
     <?php
 		if(isset($pageCSS)):
 			foreach($pageCSS as $CSS){
@@ -15,5 +13,7 @@
 			}
 		endif;
   	?>
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/admin/css/lib/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url()?>assets/admin/css/main.css">
 </head>
 <body class="with-side-menu" ng-app="TrivialPMS">	

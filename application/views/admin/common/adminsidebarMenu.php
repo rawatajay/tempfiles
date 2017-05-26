@@ -12,15 +12,32 @@
 	                <span class="lbl">Dashboard</span>
 	            </a>	            
 	        </li>
-	        <li class="red  with-sub <?php if($page_slug == "manage-employee") echo "opened"?>" >	           
+	        <li class="grey  with-sub <?php if($page_slug == "manage-employee") echo "opened"?>" >	           
 	            <span>
 	                <i class="font-icon glyphicon glyphicon-user"></i>
 	                <span class="lbl">Manage Employee</span>
 	            </span>
 	            <ul>
 	                <li><a href="<?php echo base_url('admin/register_employee')?>"><span class="lbl">Register Employee</span></a></li>	                
-	                <li><a href="<?php echo base_url('admin/create_account')?>"><span class="lbl">Create Employee Account</span></a></li>	                
-	                <li><a href="<?php echo base_url('admin/employee_list')?>"><span class="lbl">Registered Employee List</span></a></li>	                
+	                <!-- <li><a href="<?php echo base_url('admin/create_account')?>"><span class="lbl">Create Employee Account</span></a></li>	 -->                
+	                <li><a href="<?php echo base_url('admin/employee_list')?>"><span class="lbl">Employee List</span></a></li>	                
+	            </ul>
+	        </li>
+	        <li class="grey with-sub <?php if($page_slug == "emp-leave") echo "opened"?>">
+	            <a href="<?php echo base_url('admin/emp_leave')?>">
+	                <i class="font-icon font-icon-users"></i>
+	                <span class="lbl">Employee Leaves</span>
+	            </a>	            
+	        </li>
+	        <li class="grey  with-sub <?php if($page_slug == "attandance") echo "opened"?>" >	           
+	            <span>
+	                <i class="font-icon glyphicon glyphicon-calendar"></i>
+	                <span class="lbl">Manage Attandance</span>
+	            </span>
+	            <ul>
+	                <li><a href="<?php echo base_url('admin/upload_attendence_sheet')?>"><span class="lbl">Upload Sheet</span></a></li>	
+	                <li><a href="<?php echo base_url('admin/getAllEmployeeAttendance')?>"><span class="lbl">Employee Attendance</span></a></li>                
+	                	                
 	            </ul>
 	        </li>
 	      <?php /*  <li class="grey  <?php if($page_slug == "jobtype") echo "opened"?>">

@@ -5,7 +5,7 @@
 * 
 * 
 * @package    	CI
-* @subpackage 	Job Hunter
+* @subpackage 	LMS
 * @category 	Home Controller
 * @author 	  	TrivialWorks* 
 */
